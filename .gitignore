@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Downloaded test samples (too large to commit)
+Test/samples/*.pdf
+
+# Virtual environment
+venv/
+.venv/
+ENV/
+
+# IDE files
+.idea/
+*.swp
+*.swo
