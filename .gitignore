@@ -6,6 +6,9 @@ __pycache__/
 # Downloaded test samples (too large to commit)
 Test/samples/*.pdf
 
+# Generated PDF files from htmlToPDF
+htmlToPDF/output/*.pdf
+
 # Virtual environment
 venv/
 .venv/
