@@ -1,6 +1,27 @@
-pdf2docx==0.5.8
-pytesseract==0.3.10
-python-docx==1.1.2
-pdf2image==1.17.0
-functions-framework==3.*
-flask==2.*
+# PDF to DOCX Converter - Requirements
+# 
+# This application uses ONLY Python standard library modules.
+# No external packages are required for the vanilla Python implementation.
+#
+# All modules used are built into Python 3.7+:
+# - typing      (Type hints - built-in)
+# - re          (Regular expressions - built-in)
+# - zlib        (Compression - built-in)
+# - zipfile     (ZIP archive handling - built-in)
+# - io          (I/O operations - built-in)
+# - sys         (System parameters - built-in)
+# - pathlib     (Path handling - built-in)
+# - datetime    (Date/time - built-in)
+#
+# No pip install required!
+# Just run: python main.py your_file.pdf
+#
+# ---
+# Optional: For alternative implementations (NOT used in this vanilla version)
+# If you want to use library-based implementations mentioned in the documentation:
+# pdf2docx==0.5.8
+# pytesseract==0.3.10
+# python-docx==1.1.2
+# pdf2image==1.17.0
+# functions-framework==3.*
+# flask==2.*
