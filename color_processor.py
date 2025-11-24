@@ -62,6 +62,19 @@ class ColorProcessor:
                 except (ValueError, IndexError):
                     pass
 
+            # CMYK stroke color: c m y k K
+            elif len(tokens) >= 5 and tokens[-1] == b"K":
+                try:
+                    c = float(tokens[-5])
+                    m = float(tokens[-4])
+                    y = float(tokens[-3])
+                    k_val = float(tokens[-2])
+                    colors.append(
+                        {"type": "stroke", "space": "CMYK", "values": (c, m, y, k_val)}
+                    )
+                except (ValueError, IndexError):
+                    pass
+
             # Gray fill: g g
             elif len(tokens) >= 2 and tokens[-1] == b"g":
                 try:
