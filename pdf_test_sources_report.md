@@ -712,14 +712,60 @@ def create_test_directories():
 
 def download_gutenberg_books(count=50):
     """Download books from Project Gutenberg"""
-    # Example book IDs
+    # Popular book IDs - expand this list to at least 50 IDs for full collection
     book_ids = [
-        1342,  # Pride and Prejudice
-        11,    # Alice's Adventures in Wonderland
-        64317, # The Great Gatsby
-        2701,  # Moby Dick
-        1661,  # Sherlock Holmes
-        # Add more IDs...
+        1342,   # Pride and Prejudice
+        11,     # Alice's Adventures in Wonderland
+        64317,  # The Great Gatsby
+        2701,   # Moby Dick
+        1661,   # Sherlock Holmes
+        84,     # Frankenstein
+        1952,   # The Yellow Wallpaper
+        98,     # A Tale of Two Cities
+        1260,   # Jane Eyre
+        345,    # Dracula
+        46,     # A Christmas Carol
+        74,     # The Adventures of Tom Sawyer
+        76,     # Adventures of Huckleberry Finn
+        1080,   # A Modest Proposal
+        100,    # The Complete Works of William Shakespeare
+        244,    # A Study in Scarlet
+        2814,   # Dubliners
+        43,     # The Strange Case of Dr. Jekyll and Mr. Hyde
+        1232,   # The Prince
+        158,    # Emma
+        161,    # Sense and Sensibility
+        768,    # Wuthering Heights
+        5200,   # Metamorphosis
+        215,    # The Call of the Wild
+        219,    # Heart of Darkness
+        1400,   # Great Expectations
+        16,     # Peter Pan
+        1184,   # The Count of Monte Cristo
+        120,    # Treasure Island
+        55,     # The Wonderful Wizard of Oz
+        # Add 20 more IDs to reach 50 total
+        174,    # The Picture of Dorian Gray
+        844,    # The Importance of Being Earnest
+        1497,   # The Republic
+        514,    # Little Women
+        145,    # Middlemarch
+        160,    # The Awakening
+        205,    # Walden
+        829,    # Gulliver's Travels
+        1727,   # The Odyssey
+        2600,   # War and Peace
+        2554,   # Crime and Punishment
+        1399,   # Anna Karenina
+        2591,   # Grimms' Fairy Tales
+        41,     # The Legend of Sleepy Hollow
+        236,    # The Jungle Book
+        19337,  # The Brothers Karamazov
+        408,    # The Soul of Man under Socialism
+        135,    # Les Misérables
+        996,    # Don Quixote
+        4300,   # Ulysses
+        # Note: Total 50 book IDs provided
     ]
     
     for book_id in book_ids[:count]:
@@ -732,7 +778,7 @@ def download_gutenberg_books(count=50):
                     f.write(response.content)
                 print(f"Downloaded book {book_id}")
         except Exception as e:
-            print(f"Failed to download book {book_id}: {e}")
+            print(f"Failed to download book {book_id} from Project Gutenberg: {e}")
 
 def generate_test_pdfs():
     """Generate custom test PDFs"""
@@ -807,7 +853,8 @@ def validate_pdf_files():
         try:
             with open(pdf_file, 'rb') as f:
                 pdf_reader = PyPDF2.PdfReader(f)
-                pages = len(pdf_reader.pages)
+                page_count = len(pdf_reader.pages)
+            print(f"  ✓ {pdf_file.name}: {page_count} pages")
             valid_count += 1
         except Exception as e:
             invalid_files.append((pdf_file, str(e)))
