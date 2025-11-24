@@ -171,6 +171,7 @@ SUCCESS: PDF to DOCX conversion complete!
 Output file: sample.docx
 ============================================================
 ```
+
 Total streams: 5
 Compressed streams: 4
 Uncompressed streams: 1
@@ -187,6 +188,7 @@ Content preview: BT\n/F1 12 Tf\n100 700 Td\n(Hello World) Tj\nET\n...
 ============================================================
 SUCCESS: PDF processing complete through section 2.5
 ============================================================
+
 ```
 
 ## Implementation Details
