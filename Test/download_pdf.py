@@ -113,8 +113,11 @@ def download_pdf(book_id: int, output_dir: Path, timeout: int = 30) -> Optional[
     Returns:
         Path to the downloaded file, or None if download failed
     """
-    title = GUTENBERG_BOOKS.get(book_id, f"Unknown Book {book_id}")
+    title = GUTENBERG_BOOKS.get(book_id, f"UnknownBook{book_id}")
     safe_title = "".join(c for c in title if c.isalnum() or c in (' ', '-', '_')).rstrip()
+    # Ensure filename has a meaningful title portion, fallback to book_id if sanitization results in empty
+    if not safe_title.strip():
+        safe_title = f"book{book_id}"
     filename = f"gutenberg_{book_id}_{safe_title[:50]}.pdf"
     output_path = output_dir / filename
     
@@ -130,14 +133,22 @@ def download_pdf(book_id: int, output_dir: Path, timeout: int = 30) -> Optional[
         response = requests.get(url, timeout=timeout, stream=True)
         response.raise_for_status()
         
-        # Check if it's actually a PDF
+        # Check content-type header for PDF
         content_type = response.headers.get('content-type', '')
-        if 'pdf' not in content_type.lower() and not response.content[:4] == b'%PDF':
-            print(f"  [ERROR] Not a PDF: {title}")
-            return None
+        is_pdf_content_type = 'pdf' in content_type.lower()
         
+        # Download the file while checking if it starts with PDF magic bytes
+        first_chunk = True
         with open(output_path, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
+                if first_chunk:
+                    # Check PDF magic bytes in first chunk
+                    if not is_pdf_content_type and not chunk[:4] == b'%PDF':
+                        f.close()
+                        output_path.unlink(missing_ok=True)
+                        print(f"  [ERROR] Not a PDF: {title}")
+                        return None
+                    first_chunk = False
                 f.write(chunk)
         
         file_size = output_path.stat().st_size / 1024  # Size in KB
@@ -146,12 +157,14 @@ def download_pdf(book_id: int, output_dir: Path, timeout: int = 30) -> Optional[
         
     except requests.exceptions.Timeout:
         print(f"  [ERROR] Timeout downloading: {title}")
+        output_path.unlink(missing_ok=True)
         return None
     except requests.exceptions.HTTPError as e:
         print(f"  [ERROR] HTTP error for {title}: {e}")
         return None
     except requests.exceptions.RequestException as e:
         print(f"  [ERROR] Failed to download {title}: {e}")
+        output_path.unlink(missing_ok=True)
         return None
 
 
